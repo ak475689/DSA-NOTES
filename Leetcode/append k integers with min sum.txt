@@ -1,0 +1,30 @@
+ You are given an integer array nums and an integer k. Append k unique positive integers that do not appear in nums to nums such that the resulting total sum is minimum.
+
+Return the sum of the k integers appended to nums
+   
+   long long minimalKSum(vector<int>& nums, int k) {
+        int n=nums.size();
+        int i=1;
+        long long ans=((long)k*(k+1))/2;
+        int ct=0;
+        set<int>s;
+        for(auto it:nums){
+            if(s.count(it)==0&&it<=k&&it>0){
+                ans=ans-it;
+                ct++;
+            }
+            s.insert(it);
+        }
+        i=k+1;
+        while(ct>0){
+           if(s.count(i)>0){
+                
+            }
+            else{
+                ans=ans+i;
+                ct--;
+            }
+            i++;
+        }
+        return ans;
+    }
