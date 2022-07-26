@@ -1,0 +1,40 @@
+ //o(N^2)
+Node * build(Node *&root,int ele){
+    if(root==nullptr){
+        return root=new Node(ele);
+    }
+    if(root->data>ele){
+        root->left=build(root->left,ele);
+    }
+    else if(root->data<ele){
+        root->right=build(root->right,ele);
+    }
+    return root;
+}
+Node *constructTree(int post[], int size)
+{   
+    Node * root=nullptr;
+    for(int i=0;i<size;i++){
+        build(root,post[i]);
+    }
+    return root;
+}
+
+
+
+//O(n)
+class Solution {
+public:
+    TreeNode* bstFromPreorder(vector<int>& A) {
+        int i = 0;
+        return build(A, i, INT_MAX);
+    }
+
+    TreeNode* build(vector<int>& A, int& i, int bound) {
+        if (i == A.size() || A[i] > bound) return NULL;
+        TreeNode* root = new TreeNode(A[i++]);
+        root->left = build(A, i, root->val);
+        root->right = build(A, i, bound);
+        return root;
+    }
+};

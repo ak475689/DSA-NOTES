@@ -1,0 +1,49 @@
+	
+    // take the 2 smallest occuring node and add them to make a newnode and them just build up the tree..    
+    
+    public:
+	struct Node{
+	    Node *left;
+	    Node *right;
+	    int val;
+	    Node(int v){
+	        val=v;
+	        left=nullptr;
+	        right=nullptr;
+	    }
+	};
+	 void solve(Node *root,string s,vector<string>&ans){
+	     if(root==nullptr)return ;
+	     if(root->left==nullptr&&root->right==nullptr){
+	         ans.push_back(s);
+	       //  return ;
+	     }
+	     solve(root->left,s+'0',ans);
+	     solve(root->right,s+'1',ans);
+	 }
+	 struct comp{
+	     bool operator()(Node *l,Node *r){
+	         return l->val>r->val;
+	     }
+	 };
+		vector<string>huffmanCodes(string S,vector<int> f,int N)
+		{
+		    priority_queue<Node*,vector<Node*>,comp>pq;
+		    for(int i=0;i<f.size();i++)pq.push(new Node(f[i]));
+		    while(pq.size()>1){
+		        Node *l=pq.top();
+		        pq.pop();
+		        Node *r=pq.top();
+		        pq.pop();
+		      //  cout<<l->val<<" "<<r->val<<"\n";
+		        Node *temp=new Node(l->val+r->val);
+		        temp->left=l;
+		        temp->right=r;
+		        pq.push(temp);
+		    }
+		    vector<string>ans;
+		  //  cout<<pq.top()->val<<"\n";
+		    Node *root=pq.top();
+		    solve(root,"",ans);
+		    return ans;
+		}

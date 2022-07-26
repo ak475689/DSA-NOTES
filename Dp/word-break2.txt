@@ -1,0 +1,65 @@
+struct trienode{
+    char c;
+    int we;
+    trienode *children[26];
+    trienode(char c){
+        this->c=c;
+        for(int i=0;i<26;i++){
+            children[i]=nullptr;
+        }
+        we=0;
+    }
+};
+void insert(trienode *root,string s){
+    trienode *curr=root;
+    for(int i=0;i<s.size();i++){
+        int idx=s[i]-'a';
+        if(!curr->children[idx]){
+            curr->children[idx]=new trienode(char(idx+97));
+        }
+            curr=curr->children[idx];
+    }
+    curr->we+=1;
+}
+bool search(trienode *root,string s){
+    trienode *curr=root;
+    for(int i=0;i<s.size();i++){
+        int idx=s[i]-'a';
+        if(!curr->children[idx]){
+            return false;
+        }
+        curr=curr->children[idx];
+    }
+    return curr->we>0;
+}
+void solve(string s,string substring,int pos,trienode *root,vector<string>&ans){
+    //cout<<substring<<"\n";
+     if(pos==s.size()){
+      ans.push_back(substring);
+      return ;
+    }
+    substring+=" ";
+    for(int i=pos;i<s.size();i++){
+        //cout<<s.substr(pos,i-pos+1)<<"\n";
+        if(search(root,s.substr(pos,i-pos+1))){
+            solve(s,substring+s.substr(pos,i-pos+1),i+1,root,ans);
+        }
+    }
+}
+class Solution {
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        vector<string>ans;
+        trienode *root=new trienode('/');
+        for(auto x:wordDict)
+        {
+            insert(root,x);
+        }
+        for(int i=0;i<s.size();i++){
+            if(search(root,s.substr(0,i+1))){
+                solve(s,s.substr(0,i+1),i+1,root,ans);
+            }
+        }
+        return ans;
+    }
+};

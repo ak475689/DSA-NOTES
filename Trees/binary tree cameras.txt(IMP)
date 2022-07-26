@@ -1,0 +1,28 @@
+You are given the root of a binary tree. We install cameras on the tree nodes where each camera at a node can monitor its parent, itself, and its immediate children.
+
+Return the minimum number of cameras needed to monitor all nodes of the tree.
+
+ if u need a camera:-1;
+ u have a camera:0;
+ u are covered:1;
+
+    int cam=0;
+    int solve(TreeNode* root){
+         if(root==nullptr){   //if no camera then i am covered so 1
+             return 1;
+         }
+        int l=solve(root->left);
+        int r=solve(root->right);
+        if(l==-1||r==-1){ // if any of the child needs a camera i as a parent get one camera so cam++ and i have a camera on me so return 0;
+            cam++;
+            return 0;
+        }
+        if(l==0||r==0){ // if any of the child have a camera then i am covered by that camera so i return 1 
+            return 1;
+        }
+        return -1; // if my both children are already covered and dont have a camera i need a camera so i return -1 in need of a camera
+    }
+    int minCameraCover(TreeNode* root) {
+        if(solve(root)==-1)cam++; // if i am the root and i dont have any 
+        return cam;
+    }

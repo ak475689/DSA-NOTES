@@ -1,0 +1,25 @@
+	string FirstNonRepeating(string s){
+		    int n=s.size();
+		    queue<char>q;
+		    unordered_map<char,int>mp;
+		    int i=0,j=0;
+		    string ans="";
+		    while(j<n){
+		        mp[s[j]]++;
+		        if(mp[s[j]]==1){
+		            q.push(s[j]);
+		            ans=ans+q.front();
+		        }
+		        else{
+		            while(q.size()>0&&mp[q.front()]!=1)q.pop();
+		            if(q.size()==0){
+		                ans=ans+"#";
+		            }
+		            else{
+		                ans=ans+q.front();
+		            }
+		        }
+		        j++;
+		    }
+		    return ans;
+		}

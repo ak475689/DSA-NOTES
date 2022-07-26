@@ -1,0 +1,33 @@
+ Undirected graph-
+ 
+ int eulerPath(int N, vector<vector<int>> graph){
+           int flag = 0;
+     for(int i  =0 ;i<N;i++){
+         int count = 0;
+         for(int j = 0;j<N;j++){
+             if(graph[i][j]==1)
+                 count++;
+         }
+         if(count%2==1)
+         flag++;
+     }
+     if(flag==0||flag==2)
+         return 1;
+     else
+         return 0;
+    }
+
+   //EULER circuit:Directed-graph
+   
+    bool isEularCircuit(vector<int>adj[], int V){
+    if(isConnected(V,adj)==false){
+        return false;
+    }
+    for(int i=0;i<V;i++){
+        if(adj[i].size()&1){
+            return false;
+        }
+    }
+    
+    return true;
+}

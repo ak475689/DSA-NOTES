@@ -1,0 +1,37 @@
+
+You are given a string s and an integer k, a k duplicate removal consists of choosing k adjacent and equal letters from s and removing them, causing the left and the right side of the deleted substring to concatenate together.
+
+We repeatedly make k duplicate removals on s until we no longer can.
+
+Return the final string after all such duplicate removals have been made. It is guaranteed that the answer is unique.
+class Solution {
+public:
+    string removeDuplicates(string s, int k) {
+         int n=s.size();
+    stack<pair<char,int>>stk;
+    for(int i=0;i<n;i++){
+        if(stk.size()>0&&s[i]==stk.top().first){
+            pair<char,int>p=stk.top();
+            stk.pop();
+            stk.push({s[i],p.second+1});
+        }
+        else{
+            stk.push({s[i],1});
+        }
+        if(stk.top().second==k){
+            stk.pop();
+        }
+    }
+    string ans;
+    while(stk.size()>0){
+        int a=stk.top().second;
+        char c=stk.top().first;
+        stk.pop();
+        while(a--){
+            ans.push_back(c);
+        }
+    }
+        reverse(ans.begin(),ans.end());
+    return ans;
+    }
+};

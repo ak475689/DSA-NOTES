@@ -1,0 +1,25 @@
+class FreqStack {
+public:
+    unordered_map<int,stack<int>>stk;
+    unordered_map<int,int>mp;
+    int max1=0;
+    FreqStack() {
+        
+    }
+    void push(int val) {
+        mp[val]++;
+        stk[mp[val]].push(val);
+        max1=max(max1,mp[val]);
+    }
+    
+    int pop() {
+          int ans=stk[max1].top();
+          mp[ans]--;
+          stk[max1].pop();
+          if(stk[max1].size()==0){
+              stk.erase(max1);
+              max1--;
+          }
+          return ans;
+    }
+};

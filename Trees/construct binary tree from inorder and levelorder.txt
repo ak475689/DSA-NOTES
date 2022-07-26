@@ -1,0 +1,27 @@
+unordered_map<int,int> umap;
+
+Node *helper(int inorder[],int l,int h){
+    if(l > h){
+        return NULL;
+    }
+
+    // find index with minimum in levelOrder.
+    int minIndex = l;
+    for(int i = l + 1;i<=h;i++){
+        if(umap[inorder[minIndex]] > umap[inorder[i]])
+            minIndex = i;
+    }
+    Node *root = new Node(inorder[minIndex]);
+    root->left = helper(inorder,l,minIndex - 1);
+    root->right = helper(inorder,minIndex + 1,h);
+    return root;
+}
+Node* buildTree(int inorder[], int levelOrder[], int iStart, int iEnd,int n)
+{
+    for(int i =0; i<n;i++){
+        umap[levelOrder[i]] = i;
+    }
+
+    auto node = helper(inorder,iStart,iEnd);
+    return node;
+}

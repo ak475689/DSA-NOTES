@@ -1,0 +1,57 @@
+ string rearrangeString(string str)
+    {
+        string ans ="";
+        priority_queue<pair<int,char> > pq;
+        int arr[26]= {0};
+        for(int i=0;i<str.length();i++)
+        {
+                arr[str[i]-'a']++;
+        }
+        
+        for(int i=0;i<26;i++)
+        {
+            if(arr[i]!=0){
+                pq.push({arr[i],char(i+'a')});
+            }
+            
+        }
+        
+        while(pq.size()>1)
+        {
+            int n1 = pq.top().first;
+            char c1 = pq.top().second;
+            pq.pop();
+            
+            int n2 = pq.top().first;
+            char c2 = pq.top().second;
+            pq.pop();
+            ans+=c1;
+            ans+=c2;
+            n1--;
+            n2--;
+            if(n1>=1)
+            {
+                pq.push({n1,c1});
+            }
+            if(n2>=1)
+            {
+                pq.push({n2,c2});
+            }
+            
+        }
+        if(pq.size()==1)
+        {
+            int n1 = pq.top().first;
+            char c1 = pq.top().second;
+            if(n1==1)
+            {
+                 ans += c1;
+            }
+              else if (n1>1)
+              {
+                  return "-1";
+              }
+            
+            pq.pop();
+        }
+        return ans;

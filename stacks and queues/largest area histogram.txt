@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int largestRectangleArea(vector<int>&a) {
+        int n=a.size();
+        stack<int>stk;
+        vector<int>right(n,n-1);
+        for(int i=n-1;i>=0;i--){
+           while(stk.size()>0&&a[stk.top()]>=a[i])stk.pop();
+           if(stk.size()>0){
+               right[i]=stk.top()-1;
+           }
+           stk.push(i);
+        }
+        while(stk.size()>0)stk.pop();
+        vector<int>left(n,0);
+        for(int i=0;i<n;i++){
+            while(stk.size()>0&&a[stk.top()]>=a[i])stk.pop();
+            if(stk.size()>0){
+                left[i]=stk.top()+1;
+            }
+            stk.push(i);
+        }
+        int max1=0;
+        for(int i=0;i<n;i++){
+            int diff=right[i]-left[i]+1;  
+            max1=max(max1,diff*a[i]);   //assume a[i] as the height of the rectangle and try to find the left and rights smallest element and we can know that +1 and -1  of that index respectively will give us indexs whose values are greater than or equal to a[i](thus we can take height as a[i] and calculate area of the rectangle)
+        }
+        return max1;
+    }
+};

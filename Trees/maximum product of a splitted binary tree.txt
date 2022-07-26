@@ -1,0 +1,50 @@
+
+
+Given the root of a binary tree, split the binary tree into two subtrees by removing one edge such that the product of the sums of the subtrees is maximized.
+
+Return the maximum product of the sums of the two subtrees. Since the answer may be too large, return it modulo 109 + 7.
+
+Note that you need to maximize the answer before taking the mod and not after taking it.
+class Solution {
+public:
+    long long int sum=0;
+    int solve(TreeNode* root){
+        if(root==nullptr){
+            return 0;
+        }
+        sum=sum+root->val;
+        int lsum=solve(root->left);
+        int rsum=solve(root->right);
+        root->val+=lsum+rsum;
+        return root->val;
+    }
+    int maxProduct(TreeNode* root) {
+        sum=0;
+        solve(root);
+        queue<TreeNode*>q;
+        q.push(root);
+        long long max1=0;
+          int m=1e9+7;
+        while(q.size()>0){
+              TreeNode* src=q.front();
+              q.pop();
+              long long int lsum=0;
+              long long int rsum=0;
+              if(src->left){
+                  q.push(src->left);
+                  lsum=src->left->val;
+              }
+              if(src->right){
+                  q.push(src->right);
+                  rsum=src->right->val;
+              }
+              if(max1<rsum*(sum-rsum)){
+                  max1=rsum*(sum-rsum);
+              }
+                if(max1<lsum*(sum-lsum)){
+                    max1=lsum*(sum-lsum);
+                }
+            }
+        return max1%m;
+    }
+};

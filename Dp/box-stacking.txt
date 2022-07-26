@@ -1,0 +1,46 @@
+  You are given a set of N types of rectangular 3-D boxes, where the ith box has height h, width w and length l. You task is to create a stack of boxes which is as tall as possible, but you can only stack a box on top of another box if the dimensions of the 2-D base of the lower box are each strictly larger than those of the 2-D base of the higher box. Of course, you can rotate a box so that any side functions as its base.It is also allowable to use multiple instances of the same type of box. You task is to complete the function maxHeight which returns the height of the highest possible stack so formed.
+  
+  
+  struct box{
+       int l;
+       int h;
+       int w;
+    };
+    static bool comp(box b1,box b2){
+        return (b1.w*b1.l)<(b2.l*b2.w);
+    };
+    int maxHeight(int height[],int width[],int length[],int n)
+    {
+        vector<int>lis(3*n,0);
+        box arr[3*n];
+        int index=0;
+        for(int i=0;i<n;i++){
+        arr[index].h = height[i];
+        arr[index].w = max(width[i],length[i]);
+        arr[index].l = min(width[i],length[i]);
+        index+=1;
+       
+        arr[index].h = width[i];
+        arr[index].w = max(length[i],height[i]);
+        arr[index].l = min(length[i],height[i]);
+        index+=1;
+       
+        arr[index].h = length[i];
+        arr[index].w = max(height[i],width[i]);
+        arr[index].l = min(height[i],width[i]);
+        index+=1;
+        }
+        sort(arr,arr+3*n,comp);
+        int max1=0;
+        for(int i=0;i<3*n;i++){
+            lis[i]=arr[i].h;
+            max1=max(max1,lis[i]);
+            for(int j=0;j<i;j++){
+                if(arr[i].l>arr[j].l&&arr[i].w>arr[j].w){
+                    lis[i]=max(lis[i],arr[i].h+lis[j]);
+                    max1=max(max1,lis[i]);
+                }
+            }
+        }
+        return max1;
+    }

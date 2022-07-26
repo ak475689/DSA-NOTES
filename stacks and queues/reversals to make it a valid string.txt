@@ -1,0 +1,26 @@
+int countRev (string s)
+{
+    int n=s.size();
+    stack<char>stk;
+    int open=0,c=0;
+    if(n%2==1){
+        return -1;
+    }
+    for(int i=0;i<n;i++){
+        
+        if(s[i]=='{'){
+            stk.push(s[i]);
+            open++;
+        }
+        else if(s[i]=='}'&&stk.size()>0){
+                stk.pop();
+                open--;
+        }
+        else{
+            c++;
+        }
+    }
+    open=open/2+open%2;
+    c=c/2+c%2;
+    return open+c;
+}

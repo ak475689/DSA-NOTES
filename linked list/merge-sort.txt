@@ -1,0 +1,49 @@
+   Node*mergekro(Node*l1,Node*l2)
+   {
+       Node* temp=new Node(0);
+       Node* head=temp;
+       while(l1&&l2){
+           if(l1->data<l2->data){
+               temp->next=l1;
+               l1=l1->next;
+           }
+           else{
+               temp->next=l2;
+               l2=l2->next;
+           }
+           temp=temp->next;
+       }
+       while(l1)
+       {
+           temp->next=l1;
+           temp=temp->next;
+           l1=l1->next;
+       }
+        while(l2)
+       {
+           temp->next=l2;
+           temp=temp->next;
+           l2=l2->next;
+       }
+       return head->next;
+   }
+   Node* mergeSort(Node* head) {
+        if(head==NULL||head->next==NULL)
+        return head;
+       
+       // your code here
+       Node*slow=head;
+       Node*fast=head;
+       Node*temp=NULL;
+       //spilit from middle 
+       while(fast!=NULL&&fast->next!=NULL)
+       {   temp=slow;
+           slow=slow->next;
+           fast=fast->next->next;
+           
+       }
+       temp->next=NULL;
+       Node*l1=mergeSort(head);
+       Node*l2=mergeSort(slow);
+       return mergekro(l1,l2);
+   }

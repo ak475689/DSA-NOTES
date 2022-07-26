@@ -1,0 +1,22 @@
+   void solve(string S, int index, vector<string> &ans){
+       if(index >= S.length()){
+           ans.push_back(S);
+           return ;
+       }
+       
+       for(int i=index; i<S.length(); i++){
+           swap(S[i], S[index] );
+           solve(S, index+1, ans);
+           swap(S[i], S[index]);
+       }
+   }
+public:
+ vector<string>find_permutation(string S)
+ {
+     vector<string> ans;
+     int index = 0;
+     solve(S, index, ans);
+     sort(ans.begin(), ans.end());
+     ans.erase(unique(ans.begin(), ans.end()), ans.end());   ///IMP
+     return ans;
+ }

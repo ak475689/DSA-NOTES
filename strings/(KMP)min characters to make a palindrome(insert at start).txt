@@ -1,0 +1,15 @@
+string rev=str;
+int ogsize=str.size();
+reverse(rev.begin(),rev.end());
+str=str+"#"+rev;
+int n=str.size();
+int j=0;
+for(int i=1;i<n;i++){
+    j=pi[i-1];
+    while(j>0&&str[i]!=str[j]){
+        j=pi[j-1];
+    }
+    if(str[i]==str[j])j++;
+    pi[i]=j;
+}
+return ogsize-pi[n-1];

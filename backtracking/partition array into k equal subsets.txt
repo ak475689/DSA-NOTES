@@ -1,0 +1,34 @@
+class Solution {
+public:
+     int dp[20];
+    int k=0,target=0;
+    bool solve(vector<int>& arr,int start,int countset,int sum){
+        if(countset==k){
+            return true;
+        }
+        if(sum==target){
+            return solve(arr,0,countset+1,0);
+        }
+        for(int i=start;i<arr.size();i++){
+            if(i-1>=0&&arr[i]==arr[i-1]&&dp[i-1]==-1)continue;
+            if(dp[i]==-1&&arr[i]+sum<=target){
+                dp[i]=i;
+                if(solve(arr,i+1,countset,sum+arr[i]))return true;
+                dp[i]=-1;
+            }
+        }
+        return false;
+    }
+    bool canPartitionKSubsets(vector<int>& arr, int K) {
+      int sum=0;
+      memset(dp,-1,sizeof(dp));
+      for(auto it:arr){
+        sum+=it;
+      }
+      if(sum%K)return false;
+      target=sum/K;
+      k=K;
+      int countset=0;
+      return solve(arr,0,countset,0);
+    }
+};

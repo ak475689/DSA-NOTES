@@ -1,0 +1,30 @@
+  //recursive
+  
+  int f(int idx,int buy,vector<int>&a,vector<vector<int>>&dp){
+        if(idx>=a.size()){
+            return 0;
+        }
+        if(dp[idx][buy]!=-1){
+            return dp[idx][buy];
+        }
+        if(buy==1)
+        {
+            return dp[idx][buy]=max(-a[idx]+f(idx+1,0,a,dp),0+f(idx+1,1,a,dp));
+        }
+        return dp[idx][buy]=max(a[idx]+f(idx+2,1,a,dp),0+f(idx+1,0,a,dp));
+    }
+
+
+      int n=a.size();
+        vector<vector<int>>dp(n+2,vector<int>(2,0));
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<2;j++){
+                if(j==1){
+                    dp[i][j]=max(-a[i]+dp[i+1][0],0+dp[i+1][1]);
+                }
+                else{ 
+                    dp[i][j]=max(a[i]+dp[i+2][1],0+dp[i+1][0]);
+                }
+            }
+        }
+        return dp[0][1];

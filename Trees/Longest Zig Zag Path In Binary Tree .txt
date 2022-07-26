@@ -1,0 +1,27 @@
+
+class Solution {
+public:
+    struct three{
+        int backslope=-1;
+        int frontslope=-1;
+        int maxlen=0;
+    };
+    three solve(TreeNode* root){
+        if(root==nullptr)
+        {
+            three t;
+            return t;
+        }
+        three l=solve(root->left);
+        three r=solve(root->right);
+        three ans;
+        ans.maxlen=max(l.maxlen,r.maxlen);  // the longestZigZag path exists in the left or right subtree already
+        ans.maxlen=max(ans.maxlen,max(l.backslope,r.frontslope)+1);  // include the current root in the zig zag path to include a certain node  u need to add 1 to the leftchild's backslope and similarly add 1 to the right chid's frontslope
+        ans.frontslope=1+l.backslope;//to return 
+        ans.backslope=1+r.frontslope;//to return 
+        return ans;
+    }
+    int longestZigZag(TreeNode* root){
+        return solve(root).maxlen;
+    }
+};

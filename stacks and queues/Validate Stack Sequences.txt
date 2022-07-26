@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        int n = pushed.size();
+        stack<int> st;                                      //storing in temp stack
+        int j = 0;                                          //to traversing in popped array
+		
+        for(int i = 0;i<n;i++){                             //travering in pushed array
+            st.push(pushed[i]);                             //pushing every element
+            while(!st.empty() && st.top()==popped[j]){      //poping elements if possible
+                st.pop();
+                j++;
+            }
+        }
+        return st.empty();    
+    }
+};

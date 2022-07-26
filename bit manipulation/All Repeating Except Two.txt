@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>&a) {
+        long long ans=0;
+        for(int i:a)ans=ans^i;
+        ans&=-ans; //rightmost set bit
+        int x=0,y=0;
+        for(int val:a){
+            if(ans&val){
+                x=x^val;
+            }
+            else{
+                y=y^val;
+            }
+        }
+        vector<int>vec{x,y};
+        return vec;
+    }
+};

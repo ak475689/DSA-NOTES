@@ -1,0 +1,21 @@
+
+You are given an array A of N positive and/or negative integers and a value K. The task is to find the count of all sub-arrays whose sum is divisible by K.
+
+
+unordered_map<int,int> mp;
+    int ans=0,cursum=0;
+    mp[0]=1;
+    int rem=0;
+    for(int i=0;i<N;i++){
+        cursum+=arr[i];
+        rem=cursum%K;
+        if(rem<0){
+            rem+=K;
+        }
+        if(mp.find(rem)!=mp.end()){
+            ans+=mp[rem];
+        }
+        mp[rem]++;
+    }
+    return ans;    
+}

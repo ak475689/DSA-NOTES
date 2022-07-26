@@ -1,0 +1,23 @@
+class Solution {
+    TreeNode* helper(int inSt, int inEnd, int poEnd, vector<int> &inorder, vector<int> &postorder) {
+    if(poEnd < 0 || inSt > inEnd) return nullptr; // base condition
+
+    TreeNode *root = new TreeNode(postorder[poEnd]);
+
+    int pivot;
+    for(int i = inSt; i < inorder.size(); i++) {
+        if(root->val == inorder[i]) {
+            pivot = i; break;
+        }
+    }
+
+    root->left = helper(inSt, pivot - 1, poEnd - 1 + pivot - inEnd, inorder, postorder);
+    root->right = helper(pivot + 1, inEnd, poEnd - 1, inorder, postorder);
+
+    return root;
+}    
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+           return helper(0, inorder.size() - 1, postorder.size() - 1, inorder, postorder);
+    }
+};

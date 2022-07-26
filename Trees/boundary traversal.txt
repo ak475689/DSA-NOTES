@@ -1,0 +1,57 @@
+ Approach: Boundary traversal in an anti-clockwise direction can be described as a traversal consisting of three parts:
+
+Part 1: Left Boundary of the tree (excluding the leaf nodes).
+Part 2: All the leaf nodes travelled in the left to right direction.
+Part 3: Right Boundary of the tree (excluding the leaf nodes), traversed in the reverse direction.
+ 
+ 
+ bool leaf(Node *root){
+       if(root->left==nullptr&&root->right==nullptr){
+           return true;
+       }
+       return false;
+   }
+    void addleft(Node *root,vector<int>&res){
+        Node *curr=root->left;
+        while(curr){
+            if(!leaf(curr))
+            res.push_back(curr->data);
+            if(curr->left)
+            curr=curr->left;
+            else{
+                curr=curr->right;
+            }
+        }
+    }
+    void addleaves(Node *root,vector<int>&res){
+        
+        if(root->left==nullptr&&root->right==nullptr){
+             res.push_back(root->data);
+            return ;
+        }
+        if(root->left)addleaves(root->left,res);
+        if(root->right)addleaves(root->right,res);
+    }
+    void addright(Node *root,vector<int>&res){
+        stack<int>temp;
+        Node *curr=root->right;
+        while(curr){
+            if(!leaf(curr))temp.push(curr->data);
+            if(curr->right)curr=curr->right;
+            else
+            curr=curr->left;
+        }
+        while(temp.size()>0){
+            res.push_back(temp.top());
+            temp.pop();
+        }
+    }
+    vector <int> boundary(Node *root)
+    {
+        vector<int>res;
+        if(!leaf(root))res.push_back(root->data);
+        addleft(root,res);
+        addleaves(root,res);
+        addright(root,res);
+        return res;
+    }

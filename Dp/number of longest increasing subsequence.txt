@@ -1,0 +1,58 @@
+/*
+    Time Complexity: O( N ^ 2 )
+    Space Complexity: O( N )
+
+    where N denotes the length of the array.
+*/
+
+int findNumberOfLIS(vector<int> &arr)
+{
+    int n = arr.size();
+
+    // Declare 'length' array.
+    vector<int> length(n, 1);
+
+    // Declare 'count' array.
+    vector<int> count(n, 1);
+
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            // Adding ARR[i] at the end of
+            // increasing subsequence ending at ARR[j].
+            if (arr[i] > arr[j])
+            {
+                if (length[j] + 1 > length[i])
+                {
+                    length[i] = length[j] + 1;
+                    count[i] = count[j];
+                }
+
+                // Encountered a subsequence of similar length.
+                else if (length[j] + 1 == length[i])
+                    count[i] += count[j];
+            }
+        }
+    }
+
+    // Variable to find the maximum element in 'length' array.
+    int maxLength = 0;
+
+    for (int i : length)
+        maxLength = max(i, maxLength);
+
+    // Variable to store the count of LIS.
+    int cnt = 0;
+
+    // Traverse 'length' and 'count' array simultaneously.
+    for (int i = 0; i < n; i++)
+    {
+        // Update the count
+        if (length[i] == maxLength)
+            cnt += count[i];
+    }
+
+    // Return the number of LIS
+    return cnt;
+}

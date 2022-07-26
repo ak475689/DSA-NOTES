@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int f(int idx,vector<int>&a,int buy,int k, vector<vector<vector<int>>>&dp){
+        if(k==0||idx>=a.size()){
+            return 0;
+        }
+        if(dp[idx][buy][k]!=-1){
+            return dp[idx][buy][k];
+        }
+        if(buy==1){
+           return dp[idx][buy][k]=max(-a[idx]+f(idx+1,a,0,k,dp),0+f(idx+1,a,1,k,dp));    
+        }
+        return dp[idx][buy][k]=max(a[idx]+f(idx+1,a,1,k-1,dp),0+f(idx+1,a,0,k,dp));
+    }
+    int maxProfit(int k, vector<int>&a) {
+        int n=a.size();
+        vector<vector<vector<int>>>dp(n,vector<vector<int>>(2,vector<int>(k+1,-1)));
+        return f(0,a,1,k,dp);
+    }
+};

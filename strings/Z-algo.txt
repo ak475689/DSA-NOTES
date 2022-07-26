@@ -1,0 +1,33 @@
+   //time-complexity-(O(N+M));
+   vector <int> search(string pat, string txt)
+        {
+            txt=pat+"#"+txt;
+            int n=txt.size();
+            vector<int>z;
+            int i=0;
+            while(i<txt.size()){
+                if(i<=pat.size()){
+                    z.push_back(0); // (for all i for pattern keep it as zero)
+                }
+                else{
+                    int l=0,r=0;
+                    if(txt[l]==txt[i]){
+                        r=i;
+                        while(l<txt.size()&&txt[l]==txt[r]){
+                            l++;
+                            r++;
+                        }
+                    }
+                    z.push_back(l);
+                }
+                i++;
+            }
+            vector<int>ans;
+            for(int i=0;i<txt.size();i++){
+                if(z[i]==pat.size()){
+                    ans.push_back(i-pat.size());
+                }
+            }
+            return ans;
+        }
+     

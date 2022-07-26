@@ -1,0 +1,31 @@
+class Solution {
+public:
+   void solve(int n,vector<int>&curr,map<int,int>mp,vector<vector<int>>&result)
+   {
+       if(n==curr.size())
+       {
+           result.push_back(curr);
+           return ;
+       }
+       for(auto x:mp)
+       {
+           if(x.second==0)continue;
+           mp[x.first]--;
+           curr.push_back(x.first);
+           solve(n,curr,mp,result);
+           curr.pop_back();
+           mp[x.first]++;
+       }
+    }
+    vector<vector<int>> permuteUnique(vector<int>& nums) {
+      vector<vector<int>>result;
+        vector<int>curr;
+        map<int,int>mp;
+        for(int i=0;i<nums.size();i++)
+        {
+            mp[nums[i]]++;
+        }
+        solve(nums.size(),curr,mp,result);
+        return result;
+    }
+};

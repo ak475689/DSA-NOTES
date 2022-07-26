@@ -1,0 +1,17 @@
+Node * build(int &idx,int post[],int size,int min1,int max1){
+    if(idx<0||post[idx]<min1||post[idx]>max1)return nullptr;
+    Node * root=new Node(post[idx]);
+    idx--;
+    root->right=build(idx,post,size,root->data,max1);
+    root->left=build(idx,post,size,min1,root->data);
+    return root;
+}
+Node *constructTree(int post[], int size)
+{   
+    // Node * root=nullptr;
+    int idx=size-1;
+    int max1=1e9+5;;
+    int min1=-1e9+5;
+
+    return build(idx,post,size,min1,max1);
+}

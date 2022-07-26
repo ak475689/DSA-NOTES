@@ -1,0 +1,103 @@
+
+we basically store the starting x coordinates with a -ve height value and ending with a +ve height value and sort int
+and for every -ve height just add it into the priority_queue and for +ve height remove that height
+we want to find the x coordinates where the height changes that's all  and keep adding that to the answer( the max height
+) currently will contribute to the answer.
+
+(watch pepcoding video for better understanding)
+
+struct cmp {
+    bool operator()(pair<int, int> a, pair<int, int> b) {
+        if(a.first == b.first) return a.second < b.second;  // descending with height
+        return a.first > b.first;   // ascending with time
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>& buildings) {
+        vector<vector<int>> res;
+        if(buildings.size() == 0) return res;
+        multiset<int> height;   // to maintain the current height
+        // pair in priority queue would be <time, height>
+        priority_queue<pair<int, int>, vector<pair<int, int>>, cmp> pq;
+        for(int i = 0; i < buildings.size(); i++) {
+            pq.push(make_pair(buildings[i][0], buildings[i][2]));
+            pq.push(make_pair(buildings[i][1], -1 * buildings[i][2]));
+        }
+        int prevh = 0;
+        height.insert(prevh);  // little tricky
+        while(!pq.empty()) {
+            auto head = pq.top();
+            pq.pop();
+            if(head.second > 0)
+                height.insert(head.second);
+            else
+                height.erase(height.find(-1 * head.second));
+            if(pq.empty())
+                res.push_back(vector<int>{head.first, 0});
+            else if(*(--height.end()) != prevh) {
+                res.push_back(vector<int>{head.first, *(--height.end())});
+                prevh = *(--height.end());
+            }
+        }
+        return res;
+    }
+};
+
+
+
+
+ //TLE but more intutive
+
+
+class Solution {
+public:
+    vector<vector<int>> getSkyline(vector<vector<int>>&a) {
+        int n=a.size();
+        vector<pair<int,int>>vec;
+        for(int i=0;i<n;i++){
+            vec.push_back({a[i][0],-a[i][2]});
+            vec.push_back({a[i][1],a[i][2]});
+        }
+        sort(vec.begin(),vec.end());
+        n=vec.size();
+        vector<vector<int>>ans;
+        priority_queue<int>pq;
+        int h=0;
+        for(int i=0;i<n;i++){
+            int val=vec[i].second;
+            int x=vec[i].first;
+            if(val<0){
+                pq.push(-val);
+            }
+            else{
+                stack<int>stk;                      // all this just to remove the height(75-85)
+                while(pq.size()>0&&pq.top()!=val){
+                    stk.push(pq.top());
+                    pq.pop();
+                }
+                if(pq.size()>0)
+                pq.pop();
+                while(stk.size()>0){
+                    pq.push(stk.top());
+                    stk.pop();
+                }
+            }
+            if(pq.size()>0&&h!=pq.top()){
+                vector<int>temp;
+                temp.push_back(x);
+                temp.push_back(pq.top());
+                h=pq.top();
+                ans.push_back(temp);
+            }
+            else if(pq.size()==0){
+                vector<int>temp;
+                temp.push_back(x);
+                temp.push_back(0);
+                ans.push_back(temp);
+            }
+        }
+        return ans;
+    }
+};

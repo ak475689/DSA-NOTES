@@ -1,0 +1,31 @@
+for every character in string find index of same character on its left side(-1 if not) and similarly on its right side(n if not)
+
+# a # # # a # # a
+1 2 3 4 5 6 7 8 9 10
+for 'a' at index 7 no of substring in which only one 'a' occur is all substring between index 3 to index 10 containing index 7 =(left charcters * rightcharacters)=> (4*2)
+do this for all character.
+
+class Solution {
+    public:
+    int solve(string s) {
+        vector<vector<int>> arr(26);
+        int n = s.size();
+        for (int i = 0; i < s.size(); i++) {
+            arr[s[i] - 'a'].push_back(i);
+        }
+        for (int i = 0; i < 26; i++) {
+            arr[i].push_back(-1);
+            arr[i].push_back(n);
+            sort(arr[i].begin(), arr[i].end());
+        }
+        long long int ans = 0, mod = 1e9 + 7;
+        for (auto i : arr) {
+            for (int j = 1; j < i.size() - 1; j++) {
+                //  cout<<i[j]-i[j-1]<<" "<<i[j+1]-i[j]<<"
+";
+                ans = (ans + (i[j] - i[j - 1]) * (i[j + 1] - i[j])) % mod;
+            }
+        }
+        return ans;
+    }
+};

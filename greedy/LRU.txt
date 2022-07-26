@@ -1,0 +1,43 @@
+In operating systems that use paging for memory management, page replacement algorithm is needed to decide which page needs to be replaced when the new page comes in. Whenever a new page is referred and is not present in memory, the page fault occurs and Operating System replaces one of the existing pages with a newly needed page.
+
+Given a sequence of pages in an array pages[] of length N and memory capacity C, find the number of page faults using Least Recently Used (LRU) Algorithm. 
+
+int pageFaults(int n, int C, int pages[])
+    {
+        list<int> dll;
+        int pageflt=0;
+        int i=0;
+        while(i<n)
+        {
+            if(dll.size()<C)
+            {
+                if(find(dll.begin(),dll.end(),pages[i])==dll.end())
+                {
+                    dll.push_front(pages[i]);
+                    pageflt++;
+                }
+                else
+                {
+                    auto it = find(dll.begin(),dll.end(),pages[i]);
+                    dll.erase(it);
+                    dll.push_front(pages[i]);
+                }
+            }
+            else
+            {
+                if(find(dll.begin(),dll.end(),pages[i])==dll.end())
+                {
+                    dll.pop_back();
+                    dll.push_front(pages[i]);
+                    pageflt++;
+                }
+                else
+                {
+                    auto it = find(dll.begin(),dll.end(),pages[i]);
+                    dll.erase(it);
+                    dll.push_front(pages[i]);
+                }
+            }
+            i++;
+        }
+        return pageflt;

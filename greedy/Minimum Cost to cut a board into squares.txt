@@ -1,0 +1,53 @@
+ 
+ A board of length M and width N is given. The task is to break this board into M * N squares such that cost of breaking is minimum. The cutting cost for each edge will be given for the board in two arrays X[] and Y[]. In short, you need to choose such a sequence of cutting such that cost is minimized. Return the minimized cost.
+ 
+ 
+ int minimumCostOfBreaking(vector<int> X, vector<int> Y, int M, int N){
+       int v=1, h=1;
+       int i=0, j=0;
+       int cost=0;
+       sort(X.begin(), X.end(), greater<int>());
+       sort(Y.begin(), Y.end(), greater<int>());
+       while(i<X.size() and j<Y.size())
+       {
+           if(X[i]>Y[j])
+           {
+               cost=cost+(h*X[i]);
+               v++;
+               i++;
+           }
+           else if (Y[j]>X[i])
+           {
+               cost=cost+(v*Y[j]);
+               h++;
+               j++;
+           }
+           else if (X[i]==Y[j])
+           {
+               cost=cost+(h*X[i]);
+               v++;
+               i++;
+               cost=cost+(v*Y[j]);
+               h++;
+               j++;
+           }
+       }
+       if (i<X.size())
+       {
+           while(i<X.size())
+           {
+               cost=cost+(h*X[i]);
+               v++;
+               i++;
+           }
+       }
+       if (j<Y.size())
+       {
+           while(j<Y.size())
+           {
+               cost=cost+(v*Y[j]);
+               h++;
+               j++;
+           }
+       }
+       return cost;

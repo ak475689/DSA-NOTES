@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>&nums) {
+     int longest=0;
+        unordered_set<int>s(nums.begin(),nums.end());
+        for(int i=0;i<nums.size();i++)
+        {
+            if(s.find(nums[i]-1)==s.end()) // (only the starting elements will be traversed)
+            {
+                int curr=nums[i];
+                int streak=0;
+                while(s.find(curr)!=s.end())
+                {
+                    curr++;
+                    streak++;
+                }
+                longest=max(longest,streak);
+            }
+        }
+        return longest;
+    }
+};
+
+time complexity-O(n);

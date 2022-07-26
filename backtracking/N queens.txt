@@ -1,0 +1,57 @@
+class Solution {
+     vector<vector<string>>ans;
+    bool isvalid(vector<vector<char>>&vec,int row,int n,int col){
+       
+        for(int j=0;j<col;j++){
+            if(vec[row][j]=='Q')return false;
+        }
+        for(int i=0;i<row;i++){
+            if(vec[i][col]=='Q')return false;
+        }
+        int x=row-1;
+        int y=col-1;
+        while(x>=0&&y>=0){
+            if(vec[x][y]=='Q'){
+                return false;
+            }
+            x--;
+            y--;
+        }
+         x=row-1;
+         y=col+1;
+        while(x>=0&&y<n){
+            if(vec[x][y]=='Q')return false;
+            x--;
+            y++;
+        }
+        return true;
+    }
+    void dfs( vector<vector<char>>&vec,int row,int n){
+         if(row==n){
+            vector<string>vec1;
+            for(int i=0;i<n;i++){
+                string str="";
+                for(int j=0;j<n;j++){
+                    str=str+vec[i][j];
+                }
+                vec1.push_back(str);
+            }
+            ans.push_back(vec1);
+            return ;
+        }
+        for(int j=0;j<n;j++){
+            if(isvalid(vec,row,n,j)){
+            vec[row][j]='Q';
+            dfs(vec,row+1,n);
+            vec[row][j]='.';
+            }
+        }
+    }
+public:
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<char>>vec(n,vector<char>(n,'.'));
+        int row=0;
+        dfs(vec,row,n);
+        return ans;
+    }
+};

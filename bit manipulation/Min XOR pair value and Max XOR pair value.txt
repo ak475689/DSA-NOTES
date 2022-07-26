@@ -1,0 +1,58 @@
+int Solution::findMinXor(vector<int> &a) {
+    int n=a.size();
+    int ans=INT_MAX;
+    sort(a.begin(),a.end());
+    for(int i=1;i<n;i++){
+        ans=min(ans,a[i]^a[i-1]);
+    }
+    return ans;
+}
+
+
+
+
+class Solution {
+public:
+    struct trie{
+    trie* next[2];
+    trie()
+    {
+        next[0]=NULL;
+        next[1]=NULL;
+    }
+};
+    void insert(trie *root,int x){
+        for(int j=31;j>=0;j--){
+            int bit=(x>>j)&1;
+            if(root->next[bit]==nullptr){
+                root->next[bit]=new trie();
+            }
+            root=root->next[bit];
+        }
+    }
+    int findmax(trie *curr,int x){
+        int ans=0;
+        for(int j=31;j>=0;j--){
+            int bit=(x>>j)&1;
+            if(curr->next[!bit]!=nullptr){
+                ans=ans+(1<<j);
+                curr=curr->next[!bit];
+            }
+            else{
+                curr=curr->next[bit];
+            }
+        }
+        return ans;
+    }
+    int findMaximumXOR(vector<int>& nums) {
+        int max1=0;
+         trie * root=new  trie();
+         for(int i:nums){
+             insert(root,i);
+         }
+        for(int i:nums){
+            max1=max(max1,findmax(root,i));
+        }
+        return max1;
+    }
+};
