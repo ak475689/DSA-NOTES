@@ -12,7 +12,7 @@ int main()
     for (int i = 0; i < pat.size(); i++)
     {
         hpat = hpat * d;
-        hpat += ((pat[i] - 'A' + 1) % p); //rolling hash
+        hpat += ((pat[i] - 'A' + 1) % p); // rolling hash
     }
     int l = 0, r = 0;
     while (r < txt.size())
@@ -25,7 +25,7 @@ int main()
             {
                 cout << "MATCH AT " << l;
             }
-            htxt = htxt - (txt[l] - 'A' + 1) * pow(d, r - l);//sliding window
+            htxt = htxt - (txt[l] - 'A' + 1) * pow(d, r - l); // sliding window
             l++;
         }
         r++;

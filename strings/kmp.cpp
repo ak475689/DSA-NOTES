@@ -16,33 +16,40 @@ vector<int> prefix_function(string s)
         pi[i] = j;
     }
     return pi;
-}//(time complexity-(O(N+M)))
+} //(time complexity-(O(N+M)))
 int32_t main()
 {
-    string s ="bc";
-    string t ="abcabcd";
+    string s = "bc";
+    string t = "abcabcd";
     vector<int> prefix = prefix_function(s);
-    int pos=-1;
-    int i=0,j=0;
-    for(int i:prefix)cout<<i<<" ";
-    while(i<t.size()){
-        if(t[i]==s[j]){
+    int pos = -1;
+    int i = 0, j = 0;
+    for (int i : prefix)
+        cout << i << " ";
+    while (i < t.size())
+    {
+        if (t[i] == s[j])
+        {
             i++;
             j++;
         }
-        else{
-            if(j!=0){
-                j=prefix[j-1];
+        else
+        {
+            if (j != 0)
+            {
+                j = prefix[j - 1];
             }
-            else{
+            else
+            {
                 i++;
             }
         }
-        if(j==s.size()){
-            pos=i-s.size();
+        if (j == s.size())
+        {
+            pos = i - s.size();
             break;
         }
     }
-    cout<<pos<<" ";
+    cout << pos << " ";
     return 0;
 }
