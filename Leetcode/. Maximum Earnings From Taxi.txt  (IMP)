@@ -1,0 +1,41 @@
+https://leetcode.com/problems/maximum-earnings-from-taxi/
+
+const int N=2e5+1;
+class Solution {
+public:
+    long long dp[N+1];
+    int findnext(int idx,vector<vector<int>>&rides){
+        int val=rides[idx][1];
+        int n=rides.size();
+        int s=0,e=n-1;
+        int ans=n;
+        while(s<=e){
+            int mid=s+(e-s)/2;
+            if(rides[mid][0]>=val){
+                ans=mid;
+                e=mid-1;
+            }
+            else{
+                s=mid+1;
+            }
+        }
+        return ans;
+    }
+    long long solve(int idx,vector<vector<int>>&rides){
+        if(idx==rides.size()){
+            return 0;
+        }
+        if(dp[idx]!=-1){
+            return dp[idx];
+        }
+        long long op1=solve(idx+1,rides);//dont include the passenger
+        int index=findnext(idx,rides);
+        long long op2=rides[idx][1]-rides[idx][0]+rides[idx][2]+solve(index,rides);
+        return dp[idx]=max(op1,op2);
+    }
+    long long maxTaxiEarnings(int n, vector<vector<int>>& rides) {
+        memset(dp,-1,sizeof(dp));
+        sort(rides.begin(),rides.end());
+        return solve(0,rides);
+    }
+};
