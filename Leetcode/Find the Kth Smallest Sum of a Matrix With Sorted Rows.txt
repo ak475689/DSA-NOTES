@@ -1,0 +1,46 @@
+struct ls{
+    int sum;
+    vector<int>vec;
+};
+class Solution {
+public:
+    struct comp{
+        bool operator()(ls l1,ls l2){
+            return l1.sum>l2.sum;
+        }
+    };
+    int kthSmallest(vector<vector<int>>&mat, int k) {
+        
+        int n=mat.size();
+        int m=mat[0].size();
+        int sum=0;
+        vector<int>temp(n,0);
+        for(int i=0;i<n;i++){
+            sum=sum+mat[i][0];
+        }
+        priority_queue<ls,vector<ls>,comp>pq;
+        ls a;
+        a.sum=sum;
+        a.vec=temp;
+        pq.push(a);
+        set<vector<int>>st;
+        st.insert(a.vec);
+        while(pq.size()>0&&k--){
+            a=pq.top();
+            pq.pop();
+            int sum=a.sum;
+            for(int i=0;i<n;i++){
+                if(a.vec[i]+1<m){
+                    ls t;
+                    t.vec=a.vec;
+                    t.vec[i]++;
+                    t.sum=sum-mat[i][a.vec[i]]+mat[i][a.vec[i]+1];
+                    if(st.count(t.vec))continue;
+                    pq.push(t);
+                    st.insert(t.vec);
+                }
+            }
+        }
+        return a.sum;
+    }
+};
