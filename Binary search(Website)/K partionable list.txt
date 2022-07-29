@@ -1,0 +1,41 @@
+
+https://binarysearch.com/problems/K-Partitionable-List
+
+int n;
+// function to find whether the array can be split into k subsets with equal sum or not.
+bool f(vector<int>& nums, vector<bool>& used, int k, int currBucketSum, int& maxSum, int startIdx) {
+    // base conditions
+    // if we've filled all the subsets then definitely a valid partition exists so return true
+    if (k == 1) return true;
+    // if we've filled one subset completely, we'll focus on filling the next subset starting from
+    // the 0th index
+    if (currBucketSum == maxSum) return f(nums, used, k - 1, 0, maxSum, 0);
+
+    // Now we'll try to fill our current subset
+    for (int i = startIdx; i < n; i++) {
+        // if an element is unvisited and can be added to the current subset sum (i.e. adding that
+        // element to our current subset wont exceed it's sum from the desired value , then add it)
+        if (!used[i] and currBucketSum + nums[i] <= maxSum) {
+            used[i] = true;
+            bool willPartition = f(nums, used, k, currBucketSum + nums[i], maxSum, i + 1);
+            if (willPartition) return true;
+            used[i] = false;
+        }
+    }
+    return false;
+}
+
+bool solve(vector<int>& nums, int k) {
+    n = nums.size();
+    // obviously?
+    if (k > n) return false;
+    // if sum is not divisable by k then it can not be partitioned
+    long sum = accumulate(begin(nums), end(nums), 0LL);
+    if (sum % k != 0) return false;
+
+    int partitionSum = sum / k;
+    // to keep track of already used elements
+    vector<bool> used(n, false);
+    // try partioning the nums array into k equal subset sum
+    return f(nums, used, k, 0, partitionSum, 0);
+}

@@ -1,0 +1,23 @@
+
+https://binarysearch.com/problems/Bunnyhopping
+
+int solve(vector<int>& a, int k) {
+    int n = a.size();
+    deque<int> dq;
+    dq.push_back(0);
+    int ans = 0;
+    vector<int>dp(n);
+    dp[0]=a[0];
+    for (int i = 1; i < n; i++) {
+        while (dq.size() > 0 && dq.front()<i-k) {
+            dq.pop_front();
+        }
+        dp[i]=a[i]+dp[dq.front()];
+        while (dq.size() > 0 && dp[dq.back()] >= dp[i]) {
+            dq.pop_back();
+        }
+        dq.push_back(i);
+        
+    }
+    return dp[n-1];
+}
