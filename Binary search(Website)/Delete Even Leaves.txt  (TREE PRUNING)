@@ -1,0 +1,29 @@
+https://binarysearch.com/problems/Delete-Even-Leaves
+
+
+Tree* solve(Tree* root) {
+    if (!root) return root;
+    root->left = solve(root->left);
+    root->right = solve(root->right);
+    if (!root->left && !root->right && root->val % 2 == 0) return NULL;
+    return root;
+}
+
+
+
+https://binarysearch.com/problems/Tree-Pruning
+
+
+Given a binary tree root, prune the tree so that subtrees containing all 0s are removed.
+
+Tree* solve(Tree* root) {
+    if(root==nullptr){
+        return root;
+    }
+    root->left=solve(root->left);
+    root->right=solve(root->right);
+    if(!root->left&&!root->right&&root->val==0){
+        return NULL;
+    }
+    return root;
+}
