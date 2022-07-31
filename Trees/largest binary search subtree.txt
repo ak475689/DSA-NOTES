@@ -1,0 +1,44 @@
+https://binarysearch.com/problems/Largest-Binary-Search-Subtree-in-Nodes
+
+
+
+struct SubTree {
+    bool isBST;
+    int max_value;
+    int min_value;
+    int size;
+    SubTree(bool isBST, int max_value, int min_value, int size) {
+        this->isBST = isBST;
+        this->max_value = max_value;
+        this->min_value = min_value;
+        this->size = size;
+    }
+};
+
+SubTree checkBST(Tree *root, Tree *&node, int &size) {
+    if (root == NULL) {
+        return SubTree(true, INT_MIN, INT_MAX, 0);
+    }
+    SubTree left = checkBST(root->left, node, size);
+    SubTree right = checkBST(root->right, node, size);
+    if (left.isBST && right.isBST) {
+        if (root->val > left.max_value && root->val < right.min_value) {
+            if (left.size + right.size + 1 > size) {
+                node = root;
+                size = left.size + right.size + 1;
+            }
+            return SubTree(true, max(left.max_value, root->val), min(right.min_value, root->val),
+                           left.size + right.size + 1);
+        }
+    }
+    return SubTree(false, 0, 0, 0);
+}
+Tree *solve(Tree *root) {
+    if (root == NULL) {
+        return NULL;
+    }
+    Tree *node;
+    int size = 0;
+    checkBST(root, node, size);
+    return node;
+}

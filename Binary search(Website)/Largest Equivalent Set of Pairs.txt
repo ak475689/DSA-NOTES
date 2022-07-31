@@ -1,0 +1,39 @@
+https://binarysearch.com/problems/Largest-Equivalent-Set-of-Pairs
+
+
+int max1=0;
+void dfs(int i, vector<int>& a, int &n, int sum1, int sum2, 
+         vector<vector<vector<int>>>& dp,int sum) {
+    if(sum1>sum || sum2>sum)
+        return;
+    if (dp[i][sum1][sum2] != -1) {
+        return;
+    }
+    if (i == n+1) {
+        return;
+    }
+    dfs(i + 1, a, n, sum1 + a[i], sum2, dp,sum);
+    dfs(i + 1, a, n, sum1, sum2 + a[i], dp,sum);
+    dfs(i + 1, a, n, sum1, sum2, dp,sum);
+
+    dp[i][sum1][sum2] = 1;
+}
+int solve(vector<int>& a) {
+    max1 = 0;
+    int n = a.size();
+    int sum=0;
+    for(int i=0;i<n;i++){
+        sum+=a[i];
+    }
+    sum/=2;
+    vector<vector<vector<int>>> dp(n+2, vector<vector<int>>(sum+100, vector<int>(sum+100, -1)));
+    a.push_back(0);
+    dfs(0, a, n, 0, 0, dp,sum+4);
+    for (int i = 0; i < n+1; i++) {
+        for (int j = 0; j <= sum+5; j++) {
+             //cout<<dp[i][j][j]<<" ";
+            if (dp[i][j][j] == 1) max1 = max(max1, j);
+        }
+    }
+    return max1;
+}

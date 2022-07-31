@@ -1,0 +1,33 @@
+You are given a list of integers nums containing n integers, where each number represents a vote to a candidate.
+Return the id of the candidate that has greater than n/2 votes ,else return -1;
+
+int solve(vector<int>&a) {
+    int n=a.size();
+    int element=a[0];
+    int count=1;
+    if(n==1){
+        return a[0];
+    }
+    for(int i=1;i<n;i++){
+        if(a[i]==element){
+            count++;
+        }
+        else{
+            count--;
+        }
+        if(count==0){
+            element=a[i];
+            count=1;
+        }
+    }
+    int sz=0;
+    for(int i=0;i<n;i++){
+        if(a[i]==element){
+            sz++;
+        }
+    }
+    if(sz<=n/2){
+        return -1;
+    }
+    return element;
+}

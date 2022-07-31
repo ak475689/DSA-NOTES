@@ -1,0 +1,20 @@
+https://binarysearch.com/problems/Longest-Substring-with-Even-Vowel-Counts
+
+int solve(string s) {
+    unordered_map<char, int> m{{'a', 0}, {'e', 1}, {'i', 2}, {'o', 3}, {'u', 4}};
+    string helper = "aeiou";
+    unordered_map<int, int> dp;
+    dp[0] = -1;
+    int curr = 0;
+    int ans = 0;
+    for (int i = 0; i < s.length(); i++) {
+        if (helper.find(s[i]) != -1) {
+            curr ^= 1 << (m[s[i]]);
+        }
+        if (dp.find(curr) == dp.end())
+            dp[curr] = i;
+        else
+            ans = max(ans, i - dp[curr]);
+    }
+    return ans;
+}
