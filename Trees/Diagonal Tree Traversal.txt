@@ -1,0 +1,25 @@
+
+
+
+vector<int> solve(Tree* root) {
+    queue<Tree*> q;
+    q.push(root);
+    vector<int> vec;
+    while (q.size() > 0) {
+        int sz = q.size();   //IMP
+        int sum=0;
+        while (sz--) {
+            Tree* src = q.front();
+            q.pop();
+            while (src) {
+                sum = sum + src->val;
+                if (src->left) {
+                    q.push(src->left);
+                }
+                src = src->right;
+            }
+        }
+        vec.push_back(sum);
+    }
+    return vec;
+}
