@@ -1,0 +1,37 @@
+Longest Cycle in a Graph
+
+
+
+class Solution {
+public:
+    int max1=0;
+    void dfs(int src,vector<int>adj[],vector<int>&vis,vector<int>&dis,int len){
+        if(vis[src]){
+            max1=max(max1,len-dis[src]);
+            return ;
+        }
+        vis[src]=1;
+        dis[src]=len;
+        for(auto x:adj[src]){
+            dfs(x,adj,vis,dis,len+1);
+        }
+    }
+    int longestCycle(vector<int>&a) {
+        max1=0;
+        int n=a.size();
+        vector<int>adj[n];
+        for(int i=0;i<n;i++){
+            if(a[i]!=-1){
+                adj[i].push_back(a[i]);
+            }
+        }
+        vector<int>vis(n,0);
+        for(int i=0;i<n;i++){
+            if(!vis[i]){
+                vector<int>dis(n,0);
+                dfs(i,adj,vis,dis,0);
+            }
+        }
+        return max1;
+    }
+};

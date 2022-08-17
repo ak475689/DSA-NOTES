@@ -1,0 +1,33 @@
+vector<int> Solution::solve(TreeNode* A, int B) {
+    vector<int> ret;
+    queue<TreeNode*>q;
+    q.push(A);
+    bool found = false;
+    while(!q.empty() && !found){
+        int size = q.size();
+        while(size--){
+            TreeNode *t = q.front();
+            q.pop();
+            if(t->left && t->left->val == B){
+                found = true;
+            }
+            else if(t->right && t->right->val == B){
+                found = true;
+            }
+            else{
+                if(t->left) q.push(t->left);
+                if(t->right) q.push(t->right);
+
+            }
+        }
+        if(found){
+            while(!q.empty()){
+                TreeNode *t = q.front();
+                q.pop();
+                ret.push_back(t->val);
+            }
+        }
+    }
+    return ret;
+}
+
